@@ -63,8 +63,8 @@ public:
 	~PriorityQueue();
 	void Insert(OrderItem* l);
 	void Delete(OrderItem* l);
-	Line* Above(Point p, list<Line*> line_state);
-	Line* Below(Point p, list<Line*> line_state, int lowerEdge);
+	Line* Above(Point p, list<Line*> line_state, string label);
+	Line* Below(Point p, list<Line*> line_state, int lowerEdge, string label);
 	bool Member(OrderItem* item);
 
 	OrderItem* MIN_Elem();

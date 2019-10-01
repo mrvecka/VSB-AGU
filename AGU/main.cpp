@@ -42,8 +42,8 @@ void StartPlaneSweepAlgorithm(list<Point>& intersection_points, PriorityQueue* q
 		{
 			Line* s = p->GetCurrentLine();
 			alpha.push_back(s);
-			Line* s1 = queue->Above(p->GetPoint(),alpha);
-			Line* s2 = queue->Below(p->GetPoint(),alpha, lowerEdge);
+			Line* s1 = queue->Above(p->GetPoint(),alpha, s->GetLabel());
+			Line* s2 = queue->Below(p->GetPoint(),alpha, lowerEdge, s->GetLabel());
 			if (s1 != NULL) // check intersection with s1
 			{
 				OrderItem* common = FindIntersection(s, s1);
@@ -64,8 +64,8 @@ void StartPlaneSweepAlgorithm(list<Point>& intersection_points, PriorityQueue* q
 		else if (p->Type == RIGHT)
 		{
 			Line* s = p->GetCurrentLine();
-			Line* s1 = queue->Above(p->GetPoint(), alpha);
-			Line* s2 = queue->Below(p->GetPoint(), alpha, lowerEdge);
+			Line* s1 = queue->Above(p->GetPoint(), alpha, s->GetLabel());
+			Line* s2 = queue->Below(p->GetPoint(), alpha, lowerEdge, s->GetLabel());
 			if (s1 != NULL && s2 != NULL) // check intersection between s1 and s2
 			{
 				OrderItem* common = FindIntersection(s1, s2);
@@ -81,8 +81,8 @@ void StartPlaneSweepAlgorithm(list<Point>& intersection_points, PriorityQueue* q
 		{
 			Line* s1 = p->GetIntersectionLineS1();
 			Line* s2 = p->GetIntersectionLineS2();
-			Line* s3 = queue->Above(s1->GetLeftPoint(), alpha);
-			Line* s4 = queue->Below(s2->GetLeftPoint(), alpha, lowerEdge);
+			Line* s3 = queue->Above(s1->GetLeftPoint(), alpha,s1->GetLabel());
+			Line* s4 = queue->Below(s2->GetLeftPoint(), alpha, lowerEdge, s2->GetLabel());
 
 			if (s3 != NULL && s2 != NULL) // check intersection between s3 and s2
 			{

@@ -96,10 +96,10 @@ void PriorityQueue::Delete(OrderItem* i)
 	}
 }
 
-Line* PriorityQueue::Above(Point p, list<Line*> line_state)
+Line* PriorityQueue::Above(Point p, list<Line*> line_state, string label)
 {
 	Line* above = NULL;
-	for (int y = p.y-5; y >= 0; y--)
+	for (int y = p.y; y >= 0; y--)
 	{
 		Point tested = Point(p.x,y);
 		for (list<Line*>::iterator it = line_state.begin(); it != line_state.end(); it++)
@@ -117,7 +117,7 @@ Line* PriorityQueue::Above(Point p, list<Line*> line_state)
 
 			float tmp1 = (float)( tested.x - left.x ) / (right.x - left.x);
 			float tmp2 = (float)(tested.y - left.y) / (right.y - left.y);
-			if (abs(tmp1 - tmp2) < 0.02) // point belongs to line
+			if (abs(tmp1 - tmp2) < 0.02 && (*it)->GetLabel() != label) // point belongs to line
 			{
 				Line* current = (*it);
 				above = new Line((*current));
@@ -129,11 +129,11 @@ Line* PriorityQueue::Above(Point p, list<Line*> line_state)
 	return above;
 }
 
-Line* PriorityQueue::Below(Point p, list<Line*> line_state, int lowerEdge)
+Line* PriorityQueue::Below(Point p, list<Line*> line_state, int lowerEdge, string label)
 {
 	Line* below = NULL;
 
-	for (int y = p.y +3; y <= lowerEdge; y++)
+	for (int y = p.y; y <= lowerEdge; y++)
 	{
 		Point tested = Point(p.x, y);
 		for (list<Line*>::iterator it = line_state.begin(); it != line_state.end(); it++)
@@ -144,7 +144,7 @@ Line* PriorityQueue::Below(Point p, list<Line*> line_state, int lowerEdge)
 
 			float tmp1 = (float)(tested.x - left.x) / (right.x - left.x);
 			float tmp2 = (float)(tested.y - left.y) / (right.y - left.y);
-			if (abs(tmp1 - tmp2) < 0.02) // point belongs to line
+			if (abs(tmp1 - tmp2) < 0.02 && (*it)->GetLabel() != label) // point belongs to line
 			{
 				Line* current = (*it);
 				below = new Line((*current));
