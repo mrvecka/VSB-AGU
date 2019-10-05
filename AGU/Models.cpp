@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "Models.h"
 
-Line::Line(string label, int left_x, int left_y, int right_x, int right_y)
+Line::Line(string label, int left_x, int left_y, int right_x, int right_y, Scalar color)
 {
 	this->label = label;
 	this->left_x = left_x;
 	this->left_y = left_y;
 	this->right_x = right_x;
 	this->right_y = right_y;
+	this->color = color;
 }
 
 Line::Line()
@@ -26,6 +27,11 @@ Point Line::GetRightPoint()
 string Line::GetLabel()
 {
 	return this->label;
+}
+
+cv::Scalar Line::GetColor()
+{
+	return this->color;
 }
 
 OrderItem::OrderItem(Point p, Line* l, POINT_TYPE type)
@@ -177,6 +183,20 @@ OrderItem* PriorityQueue::MIN_Elem()
 	return item;
 }
 
+bool PriorityQueue::GetElementsForPolygon(list<OrderItem*>* points)
+{
+	OrderItem* item = new OrderItem((*this->orderItems.front()));
+	this->orderItems.remove(this->orderItems.front());
+	points->push_back(item);
+	
+	if (item->GetPoint().y == (*this->orderItems.front()).GetPoint().y)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
 list<OrderItem*> PriorityQueue::GetListItems()
 {
 	return this->orderItems;
@@ -186,5 +206,12 @@ void PriorityQueue::SortElements()
 {
 	this->orderItems.sort([](OrderItem* item1, OrderItem* item2) {
 		return item1->GetPoint().x < item2->GetPoint().x;
+	});
+}
+
+void PriorityQueue::SortForPolygon()
+{
+	this->orderItems.sort([](OrderItem* item1, OrderItem* item2) {
+		return item1->GetPoint().y < item2->GetPoint().y;
 	});
 }

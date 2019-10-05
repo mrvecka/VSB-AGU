@@ -15,12 +15,13 @@ enum POINT_TYPE {
 class Line
 {
 public:
-	Line(string label, int left_x, int left_y, int right_x, int right_y);
+	Line(string label, int left_x, int left_y, int right_x, int right_y, cv::Scalar color);
 	Line();
 
 	Point GetLeftPoint();
 	Point GetRightPoint();
 	string GetLabel();
+	cv::Scalar GetColor();
 
 private:
 	string label;
@@ -28,6 +29,7 @@ private:
 	int left_y;
 	int right_x;
 	int right_y;
+	cv::Scalar color;
 
 };
 
@@ -68,9 +70,11 @@ public:
 	bool Member(OrderItem* item);
 
 	OrderItem* MIN_Elem();
+	bool GetElementsForPolygon(list<OrderItem*>* items);
 
 	list<OrderItem*> GetListItems();
 	void SortElements();
+	void SortForPolygon();
 
 private:
 	list<OrderItem*> orderItems;
